@@ -17,5 +17,7 @@ mygrep -vn hello file.txt
 mygrep -nv hello file.txt
 
 ```
+![running the commands](/cmds.png)
+
 ## second the scenario
 There is the Scenario.md file explaining my thought process for the problem
