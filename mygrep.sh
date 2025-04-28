@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# i decided to use the original grep by passing args to it
 # Show usage/help message
 usage() {
     echo "Usage: $0 [-n] [-v] search_string filename"
@@ -11,16 +12,16 @@ usage() {
     exit 1
 }
 
-# Check for no arguments
+# Check for no arguments then show usage
 if [[ $# -lt 1 ]]; then
     usage
 fi
 
-# Initialize options
+# Initialize options to false
 show_line_numbers=false
 invert_match=false
 
-# Parse options
+# Parse options 
 while [[ "$1" == -* ]]; do
     case "$1" in
         -n)
@@ -32,17 +33,14 @@ while [[ "$1" == -* ]]; do
         --help)
             usage
             ;;
-        -*)
-            # Split combined options like -vn, -nv
-            optstring="${1:1}"
-            for ((i=0; i<${#optstring}; i++)); do
-                opt="${optstring:$i:1}"
-                case "$opt" in
-                    n) show_line_numbers=true ;;
-                    v) invert_match=true ;;
-                    *) usage ;;
-                esac
-            done
+        #adding the combined options like -vn
+        -[nv])
+            # Check for combined options like -nv or -vn
+            if [[ "$1" == "-n" ]]; then
+                show_line_numbers=true
+            elif [[ "$1" == "-v" ]]; then
+                invert_match=true
+            fi
             ;;
         *)
             usage
@@ -59,13 +57,14 @@ fi
 search_string="$1"
 filename="$2"
 
-# Check if file exists
+# Check if file exists to avoid grep errors
+
 if [[ ! -f "$filename" ]]; then
     echo "Error: File '$filename' not found."
     exit 1
 fi
 
-# Build grep options
+# Build grep options based on user input
 grep_options="-i"  # always case-insensitive
 if $invert_match; then
     grep_options="$grep_options -v"
@@ -76,3 +75,4 @@ fi
 
 # Execute grep
 grep $grep_options -- "$search_string" "$filename"
+

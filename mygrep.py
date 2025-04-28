@@ -31,7 +31,7 @@ def main():
 
     try:
         with open(args.filename, 'r') as file:
-            for lineno, line in enumerate(file, start=1):
+            for lines, line in enumerate(file, start=1):
                 match = args.search_string.lower() in line.lower()
 
                 if args.invert_match:
@@ -40,7 +40,7 @@ def main():
                 if match:
                     output = ''
                     if args.line_number:
-                        output += f"{lineno}:"
+                        output += f"{lines}:"
                     output += line.rstrip()
                     print(output)
 
