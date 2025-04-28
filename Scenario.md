@@ -29,8 +29,9 @@ since we know that the server is running
 i would check that the server is listening on the ports on this example port 80 and 443
 ```
 netstat -an | grep 80 
-lsof -i: 80
+lsof -i :80
 ```
+![like with the jenkins server on port 8080](/jenkinstest.png)
 if not listening check server config file 
 for example jenkins server jenkins should be running on port 8080 as default 
 ex :
@@ -42,6 +43,7 @@ check firewall
 ``` 
 firewall-cmd --list-all 
 ```
+![here port 8080 is passed by the firewall](/Firewallj.png)
 port 80 and 443 should be added in the firewall rules 
 if not 
 
